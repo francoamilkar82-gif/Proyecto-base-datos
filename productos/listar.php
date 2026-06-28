@@ -8,7 +8,7 @@ if(!isset($_SESSION["usuario"])){
 
 include("../conexion.php");
 
-$sql = "SELECT * FROM producto ORDER BY id_producto";
+$sql = "SELECT * FROM vista_productos ORDER BY id_producto";
 
 $resultado = $conexion->query($sql);
 ?>
@@ -85,11 +85,10 @@ a{
 <tr>
 
 <th>ID</th>
-
 <th>Nombre</th>
-
+<th>Categoría</th>
+<th>Marca</th>
 <th>Precio</th>
-
 <th>Acciones</th>
 
 </tr>
@@ -101,11 +100,10 @@ while($fila=$resultado->fetch(PDO::FETCH_ASSOC)){
 echo "<tr>";
 
 echo "<td>".$fila["id_producto"]."</td>";
-
 echo "<td>".$fila["nombre"]."</td>";
-
+echo "<td>".$fila["nombre_categoria"]."</td>";
+echo "<td>".$fila["nombre_marca"]."</td>";
 echo "<td>".$fila["precio"]."</td>";
-
 echo "<td>
 
 <a href='editar.php?id=".$fila["id_producto"]."'>Editar</a>
