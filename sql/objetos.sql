@@ -237,3 +237,38 @@ p_sucursal
 END;
 
 $$;
+------------------------------------------------
+--**REGISTRO**--
+------------------------------------------------
+CREATE TABLE auditoria_productos (
+    id_auditoria SERIAL PRIMARY KEY,
+    id_producto INT,
+    accion VARCHAR(20),
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE OR REPLACE FUNCTION fn_auditoria_producto()
+RETURNS TRIGGER
+AS $$
+BEGIN
+
+    INSERT INTO auditoria_productos(
+        id_producto,
+        accion
+    )
+    VALUES(
+        NEW.id_producto,
+        'INSERT'
+    );
+
+    RETURN NEW;
+
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_auditoria_producto
+AFTER INSERT
+ON producto
+FOR EACH ROW
+EXECUTE FUNCTION fn_auditoria_producto();
